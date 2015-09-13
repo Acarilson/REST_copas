@@ -28,3 +28,13 @@ get '/edicoes' do
 	return_message[:edicoes]=edicoes
 	return_message.to_json
 end
+
+get '/edicao/:id' do
+	r = {}
+	edicao = Edicoes.find(params[:id])
+	return status 404 if edicao.nil?
+	r[:edicoes]=edicao
+	r.to_json
+
+
+end
