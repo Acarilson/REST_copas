@@ -35,6 +35,20 @@ get '/edicao/:id' do
 	return status 404 if edicao.nil?
 	r[:edicoes]=edicao
 	r.to_json
+end
 
+get '/selecao' do
+	r = {}
+	selecao = Selecoes.all
+	return status 404 if selecao.nil?
+	r[:titulos]=selecao
+	r.to_json
+end
 
+get '/selecao/:nome' do
+	r = {}
+	selecao = Selecoes.find_by pais: (params[:nome])
+	return status 404 if selecao.nil?
+	r[:titulos]=selecao
+	r.to_json
 end
