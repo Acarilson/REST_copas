@@ -52,3 +52,7 @@ get '/selecao/:nome' do
 	r[:titulos]=selecao
 	r.to_json
 end
+
+error 404 do
+  'Recursos nao existente'
+end
