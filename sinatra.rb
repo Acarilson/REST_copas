@@ -12,7 +12,6 @@ ActiveRecord::Base.establish_connection(
 # Edicoes de copas
 class Edicoes < ActiveRecord::Base
 end
-
 # Selecoes vencedoras
 class Selecoes < ActiveRecord::Base
 end
@@ -22,6 +21,7 @@ get '/' do
   "Hello World"
 end
 
+
 get '/edicoes' do
 	return_message = {}
 	edicoes = Edicoes.all
@@ -29,30 +29,48 @@ get '/edicoes' do
 	return_message.to_json
 end
 
-get '/edicao/:id' do
+
+get '/edicoes/:id' do
 	r = {}
-	edicao = Edicoes.find(params[:id])
-	return status 404 if edicao.nil?
-	r[:edicoes]=edicao
+	edicoes = Edicoes.find(params[:id])
+	return status 404 if edicoes.nil?
+	r[:edicao]=edicoes
 	r.to_json
 end
 
-get '/selecao' do
+
+get '/edicoes/edicao/:nome' do
 	r = {}
-	selecao = Selecoes.all
-	return status 404 if selecao.nil?
-	r[:titulos]=selecao
+	edicoes = Edicoes.where(sede: params[:nome])
+	if edicoes.length==0
+		return status 404
+	end
+	r[:sede]=edicoes
+	r.to_json
+
+end
+
+
+get '/selecoes' do
+	r = {}
+	selecoes = Selecoes.all
+	return status 404 if selecoes.nil?
+	r[:campeoes]=selecoes
 	r.to_json
 end
 
-get '/selecao/:nome' do
+
+get '/selecoes/selecao/:nome' do
 	r = {}
-	selecao = Selecoes.find_by pais: (params[:nome])
-	return status 404 if selecao.nil?
-	r[:titulos]=selecao
+	selecoes = Selecoes.where(pais: params[:nome])
+	if selecoes.length==0
+		return status 404
+	end
+	r[:campeao]=selecoes
 	r.to_json
 end
+
 
 error 404 do
-  'Recursos nao existente'
+  'Esta Nacao nunca foi campea nem sediou alguma copa'
 end
