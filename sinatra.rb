@@ -26,52 +26,77 @@ get '/' do
 end
 
 
-get '/edicoes' do
-	return_message = {}
+get '/xml/edicoes' do
 	edicoes = Edicoes.all
-	return_message[:edicoes]=edicoes
-	return_message.to_json
+	edicoes.to_xml
+end
+
+get '/json/edicoes' do
+	edicoes = Edicoes.all
+	edicoes.to_json
 end
 
 
-get '/edicoes/:id' do
-	r = {}
+get '/xml/edicoes/:id' do
 	edicoes = Edicoes.find(params[:id])
 	return status 404 if edicoes.nil?
-	r[:edicao]=edicoes
-	r.to_json
+	edicoes.to_xml
+end
+
+get '/json/edicoes/:id' do
+	edicoes = Edicoes.find(params[:id])
+	return status 404 if edicoes.nil?
+	edicoes.to_json
 end
 
 
-get '/edicoes/edicao/:nome' do
-	r = {}
+get '/xml/edicoes/edicao/:nome' do
 	edicoes = Edicoes.where(sede: params[:nome])
 	if edicoes.length==0
 		return status 404
 	end
-	r[:sede]=edicoes
-	r.to_json
-
+	edicoes.to_xml
 end
 
 
-get '/selecoes' do
-	r = {}
+get '/json/edicoes/edicao/:nome' do
+	edicoes = Edicoes.where(sede: params[:nome])
+	if edicoes.length==0
+		return status 404
+	end
+	edicoes.to_json
+end
+
+
+get '/xml/selecoes' do
 	selecoes = Selecoes.all
 	return status 404 if selecoes.nil?
-	r[:campeoes]=selecoes
-	r.to_json
+	selecoes.to_xml
 end
 
 
-get '/selecoes/selecao/:nome' do
-	r = {}
+get '/json/selecoes' do
+	selecoes = Selecoes.all
+	return status 404 if selecoes.nil?
+	selecoes.to_json
+end
+
+
+get '/xml/selecoes/selecao/:nome' do
 	selecoes = Selecoes.where(pais: params[:nome])
 	if selecoes.length==0
 		return status 404
 	end
-	r[:campeao]=selecoes
-	r.to_json
+	selecoes.to_xml
+end
+
+
+get '/json/selecoes/selecao/:nome' do
+	selecoes = Selecoes.where(pais: params[:nome])
+	if selecoes.length==0
+		return status 404
+	end
+	selecoes.to_json
 end
 
 
