@@ -9,11 +9,15 @@ ActiveRecord::Base.establish_connection(
   :database => 'copas'
 )
 
-# Edicoes de copas
+
 class Edicoes < ActiveRecord::Base
+  include ActiveModel::Serializers::JSON
+  include ActiveModel::Serializers::Xml
 end
-# Selecoes vencedoras
+
 class Selecoes < ActiveRecord::Base
+  include ActiveModel::Serializers::JSON
+  include ActiveModel::Serializers::Xml
 end
 
 
